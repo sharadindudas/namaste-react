@@ -1,12 +1,17 @@
 import React from "react";
-import ReactDOM from "react-dom/client"
+import ReactDOM from "react-dom/client";
 
-const heading = React.createElement("h1", {id: "heading"}, "Chapter 02 - Igniting our App 🚀")
-const root = ReactDOM.createRoot(document.querySelector("#root"))
-root.render(heading)
+const heading = React.createElement(
+  "h1",
+  { id: "heading" },
+  "Chapter 02 - Igniting our App 🚀"
+);
+const root = ReactDOM.createRoot(document.querySelector("#root"));
+root.render(heading);
 
 //! Conclusion
-{/* 
+{
+  /* 
     1) npm stands for package manager and not node package manager which manages all the packages(dependencies) inside the package.json
 
     2) Version of packages are (Major | Minor | Patch)
@@ -26,4 +31,7 @@ root.render(heading)
     9)Parcel is a beast for managing for so many things such as dev build, local server, caching the files for faster builds, HMR (Hot Module Replacement), file watching Algorithm (written in C++), image optimization, minification, bundling, consistent hashing, differential bundling, code splitting, diagnostic and error handling, tree shaking and many more
 
     10)npx parcel index.html to run the file as npx is used to execute any package and npm is used to install any package
-*/}
+
+    11)npx parcel build index.html to build files
+*/
+}
