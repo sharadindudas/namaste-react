@@ -1,22 +1,22 @@
 {
-  "name": "chapter-03---laying-the-foundation",
+  "name": "namaste-react",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
   "scripts": {
     "start": "parcel index.html",
     "build": "parcel build index.html",
     "test": "jest"
   },
-  "keywords": [],
-  "author": "",
+  "author": "Sharadindu Das",
   "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "parcel": "^2.13.3"
+  },
   "dependencies": {
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
   },
-  "devDependencies": {
-    "parcel": "^2.13.3",
-    "process": "^0.11.10"
-  }
+  "browserslist": [
+    "last 2 versions"
+  ]
 }

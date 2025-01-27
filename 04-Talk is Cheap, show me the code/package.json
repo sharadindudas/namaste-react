@@ -1,14 +1,22 @@
 {
-  "description": "",
+  "name": "namaste-react",
+  "version": "1.0.0",
   "scripts": {
-    "start": "parcel index.html"
+    "start": "parcel index.html",
+    "build": "parcel build index.html",
+    "test": "jest"
+  },
+  "author": "Sharadindu Das",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "parcel": "^2.13.3"
   },
   "dependencies": {
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
   },
-  "devDependencies": {
-    "parcel": "^2.9.3",
-    "process": "^0.11.10"
-  }
+  "browserslist": [
+    "last 2 versions"
+  ]
 }
