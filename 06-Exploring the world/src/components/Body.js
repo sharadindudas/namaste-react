@@ -8,6 +8,7 @@ const Body = () => {
   const [searchText, setSearchText] = useState("");
 
   useEffect(() => {
+    // console.log("useEffect called");
     fetchData();
   }, []);
 
@@ -36,10 +37,15 @@ const Body = () => {
     <div className="body">
       <div className="buttons">
         <div className="filter">
-          <button className="filter-btn" onClick={() => {
-            const filterTopRes = Reslist.filter((res) => res.info.avgRating > 4);
-            setFilteredList(filterTopRes);
-          }}>
+          <button
+            className="filter-btn"
+            onClick={() => {
+              const filterTopRes = Reslist.filter(
+                (res) => res.info.avgRating > 4
+              );
+              setFilteredList(filterTopRes);
+            }}
+          >
             Top Rated Restaurants
           </button>
         </div>

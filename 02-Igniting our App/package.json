@@ -1,17 +1,16 @@
 {
-  "name": "chapter-02---igniting-our-app",
+  "name": "namaste-react",
   "version": "1.0.0",
-  "description": "this is igniting our app",
   "scripts": {
     "start": "parcel index.html",
     "build": "parcel build index.html",
     "test": "jest"
   },
-  "author": "Remo",
+  "author": "Sharadindu Das",
   "license": "ISC",
+  "description": "",
   "devDependencies": {
-    "parcel": "^2.13.3",
-    "process": "^0.11.10"
+    "parcel": "^2.13.3"
   },
   "dependencies": {
     "react": "^19.0.0",
@@ -19,6 +18,5 @@
   },
   "browserslist": [
     "last 2 versions"
-  ],
-  "keywords": ["react", "namaste react", "javascript"]
+  ]
 }

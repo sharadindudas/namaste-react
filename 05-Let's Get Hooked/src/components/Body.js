@@ -87,15 +87,15 @@ const Body = () => {
           className="filter-btn"
           onClick={() => {
             // Logic for filtering the Restaurants whose Rating is > 4
-            setReslist(reslist.filter((res) => res.info.avgRating > 4));
+            setReslist(reslist.filter((res) => res?.info?.avgRating > 4));
           }}
         >
           Top Rated Restaurants
         </button>
       </div>
       <div className="res-container">
-        {reslist.map((item) => (
-          <RestaurantCard key={item.info.id} item={item.info} />
+        {reslist?.map((item) => (
+          <RestaurantCard key={item?.info?.id} item={item?.info} />
         ))}
       </div>
     </div>
