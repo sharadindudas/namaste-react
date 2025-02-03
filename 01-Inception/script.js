@@ -13,7 +13,7 @@
 
 //! ============== Rendering Nested React Elements ==============
 {
-  /* 
+    /* 
     <div id="parent">
         <div id="child">
             <h1>This is a heading</h1>
@@ -31,7 +31,7 @@
 // root.render(parent)
 
 {
-  /* 
+    /* 
     <div id="parent">
         <div id="child">
             <h1>This is a heading 1</h1>
@@ -51,7 +51,7 @@
 // root.render(parent)
 
 {
-  /* 
+    /* 
     <div id="parent">
         <div id="child1">
             <h1>This is heading 1</h1>
@@ -79,10 +79,10 @@
 // root.render(parent)
 
 {
-  /* Conclusion */
+    /* Conclusion */
 }
 {
-  /* 
+    /* 
     1) React.createElement helps to create elements in the DOM using React and the output is React Element which is nothing but an normal Javascript Object.
     2) ReactDOM.createRoot() specifies where to do all the DOM operations for react
     3) To create nested elements in react, use Array [] to create elements in nested way

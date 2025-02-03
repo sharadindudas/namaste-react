@@ -2,16 +2,16 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 
 const heading = React.createElement(
-  "h1",
-  { id: "heading" },
-  "Chapter 02 - Igniting our App 🚀"
+    "h1",
+    { id: "heading" },
+    "Chapter 02 - Igniting our App 🚀"
 );
 const root = ReactDOM.createRoot(document.querySelector("#root"));
 root.render(heading);
 
 //! Conclusion
 {
-  /* 
+    /* 
     1) npm stands for package manager and not node package manager which manages all the packages(dependencies) inside the package.json
 
     2) Version of packages are (Major | Minor | Patch)

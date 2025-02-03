@@ -3,8 +3,8 @@ import data from "../resdata.json";
 import { useState } from "react";
 
 const Body = () => {
-  //! Using some restaurants
-  /*
+    //! Using some restaurants
+    /*
   const [reslist, setReslist] = useState([
     {
       info: {
@@ -69,37 +69,39 @@ const Body = () => {
   ];
   */
 
-  //! Using json data
-  const [reslist, setReslist] = useState(data?.resData);
+    //! Using json data
+    const [reslist, setReslist] = useState(data?.resData);
 
-  //? We can do the same thing like this 
-  // const arr = useState(data?.resData);
-  // const [reslist, setReslist] = arr;
-  //  or 
-  // const reslist = arr[0];
-  // const setReslist = arr[1];
-  // console.log(arr);
+    //? We can do the same thing like this
+    // const arr = useState(data?.resData);
+    // const [reslist, setReslist] = arr;
+    //  or
+    // const reslist = arr[0];
+    // const setReslist = arr[1];
+    // console.log(arr);
 
-  return (
-    <div className="body">
-      <div className="filter">
-        <button
-          className="filter-btn"
-          onClick={() => {
-            // Logic for filtering the Restaurants whose Rating is > 4
-            setReslist(reslist.filter((res) => res?.info?.avgRating > 4));
-          }}
-        >
-          Top Rated Restaurants
-        </button>
-      </div>
-      <div className="res-container">
-        {reslist?.map((item) => (
-          <RestaurantCard key={item?.info?.id} item={item?.info} />
-        ))}
-      </div>
-    </div>
-  );
+    return (
+        <div className="body">
+            <div className="filter">
+                <button
+                    className="filter-btn"
+                    onClick={() => {
+                        // Logic for filtering the Restaurants whose Rating is > 4
+                        setReslist(
+                            reslist.filter((res) => res?.info?.avgRating > 4)
+                        );
+                    }}
+                >
+                    Top Rated Restaurants
+                </button>
+            </div>
+            <div className="res-container">
+                {reslist?.map((item) => (
+                    <RestaurantCard key={item?.info?.id} item={item?.info} />
+                ))}
+            </div>
+        </div>
+    );
 };
 
 export default Body;
