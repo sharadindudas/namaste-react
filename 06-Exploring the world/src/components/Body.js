@@ -1,84 +1,106 @@
 import { useEffect, useState } from "react";
 import RestaurantCard from "./RestaurantCard";
 import Shimmer from "./Shimmer";
+import { RESTAURANT_API_URL } from "../utils/constants";
 
 const Body = () => {
-  const [Reslist, setReslist] = useState([]);
-  const [Filterlist, setFilteredList] = useState([]);
-  const [searchText, setSearchText] = useState("");
+    const [allRestaurants, setAllRestaurants] = useState([]);
+    const [filteredRestaurants, setFilteredRestaurants] = useState([]);
+    const [searchText, setSearchText] = useState("");
+    const [searchError, setSearchError] = useState("");
 
-  useEffect(() => {
-    // console.log("useEffect called");
-    fetchData();
-  }, []);
+    useEffect(() => {
+        // Fetching all restaurants
+        const fetchRestaurants = async () => {
+            try {
+                const response = await fetch(RESTAURANT_API_URL);
+                const json = await response.json();
+                setAllRestaurants(
+                    json?.data?.cards?.find((item) =>
+                        item?.card?.card?.id?.includes("restaurant_grid")
+                    )?.card?.card?.gridElements?.infoWithStyle?.restaurants
+                );
+                setFilteredRestaurants(
+                    json?.data?.cards?.find((item) =>
+                        item?.card?.card?.id?.includes("restaurant_grid")
+                    )?.card?.card?.gridElements?.infoWithStyle?.restaurants
+                );
+            } catch (err) {
+                console.error(err.message);
+            }
+        };
+        fetchRestaurants();
+    }, []);
 
-  const fetchData = async () => {
-    const data = await fetch(
-      "https://www.swiggy.com/dapi/restaurants/list/v5?lat=22.9430915&lng=88.43611480000001&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING"
-    );
+    // Filtering top rated restaurants logic
+    const handleTopRatedRestaurants = () => {
+        const filteredRestaurants = allRestaurants?.filter(
+            (res) => res?.info?.avgRating?.toFixed(1) > 4.0
+        );
+        setFilteredRestaurants(filteredRestaurants);
+    };
 
-    const json = await data.json();
-    // console.log(json.data)
-    setReslist(
-      json?.data?.cards[4]?.card?.card?.gridElements?.infoWithStyle?.restaurants
-    );
-    setFilteredList(
-      json?.data?.cards[4]?.card?.card?.gridElements?.infoWithStyle?.restaurants
-    );
-  };
+    // Filtering search restaurants logic
+    const handleSearchRestaurants = () => {
+        const filteredRestaurants = allRestaurants?.filter((res) =>
+            res?.info?.name?.toLowerCase()?.includes(searchText?.toLowerCase())
+        );
+        setFilteredRestaurants(filteredRestaurants);
+        if (filteredRestaurants?.length > 0) {
+            setSearchError("");
+        } else {
+            setSearchError(
+                `Sorry, we couldn't find any results for "${searchText}"`
+            );
+        }
+    };
 
-  if (Reslist.length === 0) {
-    return <Shimmer />;
-  }
+    // If no restaurants are present
+    if (allRestaurants?.length === 0) {
+        return <Shimmer />;
+    }
 
-  // console.log("Body Rendered");
-
-  return (
-    <div className="body">
-      <div className="buttons">
-        <div className="filter">
-          <button
-            className="filter-btn"
-            onClick={() => {
-              const filterTopRes = Reslist.filter(
-                (res) => res.info.avgRating > 4
-              );
-              setFilteredList(filterTopRes);
-            }}
-          >
-            Top Rated Restaurants
-          </button>
+    return (
+        <div className="container">
+            <div className="buttons">
+                <div className="filter">
+                    <button
+                        onClick={handleTopRatedRestaurants}
+                        className="filter-btn"
+                    >
+                        Top Rated Restaurants
+                    </button>
+                </div>
+                <div className="search">
+                    <input
+                        type="text"
+                        placeholder="Search here"
+                        value={searchText}
+                        onChange={(e) => {
+                            setSearchText(e.target.value);
+                        }}
+                    />
+                    <button
+                        onClick={handleSearchRestaurants}
+                        className="search-btn"
+                    >
+                        Search
+                    </button>
+                </div>
+            </div>
+            <div className="res-container">
+                {searchError && <p>{searchError}</p>}
+                {filteredRestaurants?.map((restaurant) => {
+                    return (
+                        <RestaurantCard
+                            key={restaurant.info.id}
+                            item={restaurant.info}
+                        />
+                    );
+                })}
+            </div>
         </div>
-        <div className="search">
-          <input
-            type="text"
-            placeholder="Search here"
-            value={searchText}
-            onChange={(e) => setSearchText(e.target.value)}
-          />
-          <button
-            className="search-btn"
-            onClick={() => {
-              const filteredSearch = Reslist.filter((res) =>
-                res.info.name.toLowerCase().includes(searchText.toLowerCase())
-              );
-              setFilteredList(filteredSearch);
-              setSearchText("");
-            }}
-          >
-            Search
-          </button>
-        </div>
-      </div>
-      <div className="res-container">
-        {Filterlist?.map((restaurant) => {
-          return (
-            <RestaurantCard key={restaurant.info.id} item={restaurant.info} />
-          );
-        })}
-      </div>
-    </div>
-  );
+    );
 };
 
 export default Body;
