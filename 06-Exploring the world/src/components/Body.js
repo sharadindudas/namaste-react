@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 import RestaurantCard from "./RestaurantCard";
-import Shimmer from "./Shimmer";
 import { RESTAURANT_API_URL } from "../utils/constants";
+import Shimmer from "./Shimmer";
 
 const Body = () => {
     const [allRestaurants, setAllRestaurants] = useState([]);
     const [filteredRestaurants, setFilteredRestaurants] = useState([]);
     const [searchText, setSearchText] = useState("");
-    const [searchError, setSearchError] = useState("");
+    const [searchError, setSearchError] = useState(null);
 
     useEffect(() => {
         // Fetching all restaurants
@@ -32,29 +32,6 @@ const Body = () => {
         fetchRestaurants();
     }, []);
 
-    // Filtering top rated restaurants logic
-    const handleTopRatedRestaurants = () => {
-        const filteredRestaurants = allRestaurants?.filter(
-            (res) => res?.info?.avgRating?.toFixed(1) > 4.0
-        );
-        setFilteredRestaurants(filteredRestaurants);
-    };
-
-    // Filtering search restaurants logic
-    const handleSearchRestaurants = () => {
-        const filteredRestaurants = allRestaurants?.filter((res) =>
-            res?.info?.name?.toLowerCase()?.includes(searchText?.toLowerCase())
-        );
-        setFilteredRestaurants(filteredRestaurants);
-        if (filteredRestaurants?.length > 0) {
-            setSearchError("");
-        } else {
-            setSearchError(
-                `Sorry, we couldn't find any results for "${searchText}"`
-            );
-        }
-    };
-
     // If no restaurants are present
     if (allRestaurants?.length === 0) {
         return <Shimmer />;
@@ -63,14 +40,21 @@ const Body = () => {
     return (
         <div className="container">
             <div className="buttons">
+                {/* Filter restaurants */}
                 <div className="filter">
                     <button
-                        onClick={handleTopRatedRestaurants}
+                        onClick={() => {
+                            const filteredRestaurants = allRestaurants?.filter(
+                                (res) => res?.info?.avgRating?.toFixed(1) > 4.0
+                            );
+                            setFilteredRestaurants(filteredRestaurants);
+                        }}
                         className="filter-btn"
                     >
                         Top Rated Restaurants
                     </button>
                 </div>
+                {/* Search restaurants */}
                 <div className="search">
                     <input
                         type="text"
@@ -81,7 +65,22 @@ const Body = () => {
                         }}
                     />
                     <button
-                        onClick={handleSearchRestaurants}
+                        onClick={() => {
+                            const filteredRestaurants = allRestaurants?.filter(
+                                (res) =>
+                                    res?.info?.name
+                                        ?.toLowerCase()
+                                        ?.includes(searchText?.toLowerCase())
+                            );
+                            setFilteredRestaurants(filteredRestaurants);
+                            if (filteredRestaurants?.length > 0) {
+                                setSearchError(null);
+                            } else {
+                                setSearchError(
+                                    `Sorry, we couldn't find any results for "${searchText}"`
+                                );
+                            }
+                        }}
                         className="search-btn"
                     >
                         Search
@@ -90,14 +89,12 @@ const Body = () => {
             </div>
             <div className="res-container">
                 {searchError && <p>{searchError}</p>}
-                {filteredRestaurants?.map((restaurant) => {
-                    return (
-                        <RestaurantCard
-                            key={restaurant.info.id}
-                            item={restaurant.info}
-                        />
-                    );
-                })}
+                {filteredRestaurants?.map((restaurant) => (
+                    <RestaurantCard
+                        key={restaurant.info.id}
+                        item={restaurant.info}
+                    />
+                ))}
             </div>
         </div>
     );
