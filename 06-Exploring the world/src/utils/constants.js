@@ -1,7 +1,7 @@
-const RESTAURANT_API_URL =
+const RESTAURANT_API =
     "https://www.swiggy.com/dapi/restaurants/list/v5?lat=22.9430915&lng=88.43611480000001&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING";
 
-const RESTAURANT_IMG_URL =
+const RESTAURANT_IMG =
     "https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_660";
 
 const LOGO_URL =
@@ -11,4 +11,4 @@ const STAR_URL =
     "https://upload.wikimedia.org/wikipedia/commons/thumb/9/99/Star_icon_stylized.svg/1077px-Star_icon_stylized.svg.png";
 
 // We can do this
-export { RESTAURANT_API_URL, RESTAURANT_IMG_URL, LOGO_URL, STAR_URL };
+export { RESTAURANT_API, RESTAURANT_IMG, LOGO_URL, STAR_URL };

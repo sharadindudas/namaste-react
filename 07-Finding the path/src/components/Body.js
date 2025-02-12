@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import RestaurantCard from "./RestaurantCard";
 import { RESTAURANT_API } from "../utils/constants";
 import Shimmer from "./Shimmer";
+import "../css/body.css";
 
 const Body = () => {
     const [allRestaurants, setAllRestaurants] = useState([]);
@@ -38,7 +39,7 @@ const Body = () => {
     }
 
     return (
-        <div className="container">
+        <div className="body-container">
             <div className="buttons">
                 {/* Filter restaurants */}
                 <div className="filter">
@@ -87,6 +88,7 @@ const Body = () => {
                     </button>
                 </div>
             </div>
+
             <div className="res-container">
                 {searchError && <p>{searchError}</p>}
                 {filteredRestaurants?.map((restaurant) => (
