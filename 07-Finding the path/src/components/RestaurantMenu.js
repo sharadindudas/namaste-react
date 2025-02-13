@@ -20,39 +20,36 @@ const RestaurantMenu = () => {
                     const json = await response.json();
 
                     // Restaurant info data
-                    setResInfo(
-                        json?.data?.cards?.find((item) =>
-                            item?.card?.card["@type"]?.includes(
-                                "food.v2.Restaurant"
-                            )
-                        )?.card?.card?.info
-                    );
+                    const restaurantInfo = json?.data?.cards?.find((obj) =>
+                        obj?.card?.card["@type"]?.includes("food.v2.Restaurant")
+                    )?.card?.card?.info;
 
                     // Restaurant menu data
                     const menuData = json?.data?.cards
-                        ?.find((item) => item?.groupedCard)
+                        ?.find((obj) => obj?.groupedCard)
                         ?.groupedCard?.cardGroupMap?.REGULAR?.cards?.filter(
-                            (item) =>
-                                item?.card?.card["@type"]?.includes(
+                            (obj) =>
+                                obj?.card?.card["@type"]?.includes(
                                     "ItemCategory"
                                 ) ||
-                                item?.card?.card["@type"]?.includes(
+                                obj?.card?.card["@type"]?.includes(
                                     "NestedItemCategory"
                                 )
                         );
-                    const organisedMenuData = menuData?.map((item) => {
-                        const type = item?.card?.card["@type"];
-                        const title = item?.card?.card?.title;
-                        const itemCards = item?.card?.card?.itemCards || [];
-                        const categories = item?.card?.card?.categories || [];
 
-                        if (type?.includes("NestedItemCategory")) {
+                    const organisedMenuData = menuData?.map((obj) => {
+                        const type = obj?.card?.card["@type"];
+                        const title = obj?.card?.card?.title;
+                        const itemCards = obj?.card?.card?.itemCards;
+                        const categories = obj?.card?.card?.categories;
+
+                        if (type?.includes("Nested")) {
                             return {
                                 title,
                                 type: "nested",
-                                categories: categories?.map((category) => ({
-                                    title: category?.title,
-                                    itemCards: category?.itemCards || []
+                                categories: categories?.map((subcategory) => ({
+                                    title: subcategory?.title,
+                                    itemCards: subcategory?.itemCards
                                 }))
                             };
                         } else {
@@ -63,6 +60,7 @@ const RestaurantMenu = () => {
                             };
                         }
                     });
+                    setResInfo(restaurantInfo);
                     setResMenu(organisedMenuData);
                 }
             } catch (err) {
@@ -74,7 +72,7 @@ const RestaurantMenu = () => {
 
     if (resInfo === null) return <Shimmer />;
 
-    const { name, areaName, cuisines, costForTwoMessage } = resInfo || {};
+    const { name, areaName, cuisines, costForTwoMessage } = resInfo;
 
     return (
         <div
@@ -116,34 +114,6 @@ const RestaurantMenu = () => {
     );
 };
 
-const NestedMenuCategory = (props) => {
-    const { category } = props;
-    return (
-        <div className="nested-menu-category">
-            <h3 className="nested-category-name">{category?.title}</h3>
-            {category?.categories?.map((subcategory) => (
-                <div key={subcategory?.title}>
-                    <h4 className="category-name">
-                        <div>
-                            {subcategory?.title} (
-                            {subcategory?.itemCards?.length})
-                        </div>
-                        <span>▼</span>
-                    </h4>
-                    <div className="menu-items">
-                        {subcategory?.itemCards?.map((item) => (
-                            <MenuItem
-                                key={item?.card?.info?.id}
-                                item={item?.card?.info}
-                            />
-                        ))}
-                    </div>
-                </div>
-            ))}
-        </div>
-    );
-};
-
 const MenuCategory = (props) => {
     const { category } = props;
     return (
@@ -162,6 +132,39 @@ const MenuCategory = (props) => {
                     />
                 ))}
             </div>
+        </div>
+    );
+};
+
+const NestedMenuCategory = (props) => {
+    const { category } = props;
+    return (
+        <div className="nested-menu-category">
+            <h3 className="nested-category-name">{category?.title}</h3>
+            {category?.categories?.map((subcategory) => (
+                <div
+                    style={{
+                        padding: "0 0 0 40px"
+                    }}
+                    key={subcategory?.title}
+                >
+                    <h4 className="category-name">
+                        <div>
+                            {subcategory?.title} (
+                            {subcategory?.itemCards?.length})
+                        </div>
+                        <span>▼</span>
+                    </h4>
+                    <div className="menu-items">
+                        {subcategory?.itemCards?.map((item) => (
+                            <MenuItem
+                                key={item?.card?.info?.id}
+                                item={item?.card?.info}
+                            />
+                        ))}
+                    </div>
+                </div>
+            ))}
         </div>
     );
 };
