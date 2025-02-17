@@ -1,4 +1,4 @@
-.ErrorContainer{
+.error-container {
     background-color: black;
     color: white;
     min-height: 100vh;
@@ -9,28 +9,25 @@
     flex-direction: column;
 }
 
-.ErrorType{
+.error-type {
     font-size: 3rem;
 }
 
-.ErrorStat{
+.error-status {
     color: red;
 }
 
-.ErrorMsg{
+.error-msg {
     font-size: 1.5rem;
+    margin: 10px 0 20px 0;
 }
 
-.Navigate{
-    margin: 1rem 0;
-    font-size: 1.2rem;
-}
-
-.Button{
+.error-button {
     cursor: pointer;
     background-color: white;
     width: 100px;
-    height: 40px;
+    height: 45px;
+    border-radius: 12px;
     display: flex;
     justify-content: center;
     align-items: center;

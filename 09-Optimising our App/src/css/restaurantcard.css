@@ -1,0 +1,47 @@
+.res-card {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    align-items: start;
+    width: 300px;
+    transition: all 0.4s ease;
+    cursor: pointer;
+}
+
+.res-card:hover {
+    transform: scale(0.98);
+}
+
+.res-logo {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 15px;
+}
+
+.res-name {
+    font-size: 1rem;
+}
+
+.res-rating {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 5px;
+    font-weight: 400;
+    font-size: 0.9rem;
+}
+
+.res-star {
+    width: 18px;
+}
+
+.res-items {
+    font-size: 0.9rem;
+    color: gray;
+}
+
+.res-location {
+    font-size: 0.9rem;
+    color: gray;
+}

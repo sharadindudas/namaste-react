@@ -16,16 +16,14 @@ li {
     list-style: none;
 }
 
+button {
+    cursor: pointer;
+}
+
 img,
 video {
     display: block;
     max-width: 100%;
-}
-
-button {
-    border: none;
-    border-radius: 10px;
-    cursor: pointer;
 }
 
 #root {

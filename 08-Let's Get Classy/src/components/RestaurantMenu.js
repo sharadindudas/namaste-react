@@ -144,7 +144,7 @@ const NestedMenuCategory = (props) => {
             {category?.categories?.map((subcategory) => (
                 <div
                     style={{
-                        padding: "0 0 0 40px"
+                        padding: "20px 0 0 40px"
                     }}
                     key={subcategory?.title}
                 >
@@ -170,20 +170,20 @@ const NestedMenuCategory = (props) => {
 };
 
 const MenuItem = ({ item }) => {
-    const { name, description, price, imageId } = item;
+    const { name, description, price, defaultPrice, imageId } = item;
 
     return (
         <div className="menu-item">
             <div className="left">
                 {name && <h4>{name}</h4>}
-                {description && <p>{description}</p>}
+                {description && <p>{truncateString(description, 120)}</p>}
                 {price && <p>Price: ₹{(price / 100).toFixed(2)}</p>}
-            </div>
-            <div className="right">
-                {imageId && (
-                    <img src={RESTAURANT_MENU_IMG + imageId} alt={name} />
+                {defaultPrice && (
+                    <p>Price: ₹{(defaultPrice / 100).toFixed(2)}</p>
                 )}
             </div>
+
+            {imageId && <img src={RESTAURANT_MENU_IMG + imageId} alt={name} />}
         </div>
     );
 };
