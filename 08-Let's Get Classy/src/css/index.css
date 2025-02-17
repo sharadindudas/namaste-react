@@ -1,45 +1,64 @@
-*,*::after,*::before{
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: 'Poppins', sans-serif;
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Inter", serif;
 }
 
-li{
-  list-style: none;
+a {
+    text-decoration: none;
+    color: inherit;
 }
 
-a{
-  text-decoration: none;
+li {
+    list-style: none;
 }
 
-img,video{
-  display: block;
-  max-width: 100%;
+img,
+video {
+    display: block;
+    max-width: 100%;
 }
 
-.CommonBtn{
-  font-size: 0.9rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 240px;
-  height: 50px;
-  background-color: black;
-  color: white;
-  border: none;
-  outline: none;
-  cursor: pointer;
+#root {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
 }
 
-.Container{
-  max-width: 1200px;
-  margin: 0 auto;
+.shimmer-buttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 150px;
+    margin: 60px 0;
 }
 
-.Flex{
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 30px;
+.shimmer-button {
+    width: 300px;
+    height: 60px;
+    padding: 1.2em 2.8em;
+    border-radius: 0.6em;
+    background-color: rgb(206, 206, 206);
+}
+
+.shimmer-container {
+    max-width: 1300px;
+    margin: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 30px;
+}
+
+.shimmer-card {
+    border-radius: 15px;
+    width: 300px;
+    height: 200px;
+    transition: all 0.4s ease;
+    cursor: pointer;
+    background-color: rgb(206, 206, 206);
 }

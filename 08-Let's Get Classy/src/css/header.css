@@ -1,0 +1,23 @@
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 1.5rem;
+    background-color: black;
+}
+
+.logo {
+    height: 60px;
+    border-radius: 50px;
+}
+
+.nav-items ul {
+    display: flex;
+    gap: 40px;
+}
+
+.nav-items ul li a {
+    color: white;
+    cursor: pointer;
+    font-size: 1rem;
+}
