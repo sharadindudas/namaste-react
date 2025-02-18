@@ -14,7 +14,7 @@ const RestaurantMenu = () => {
     const { name, areaName, cuisines, costForTwoMessage } = resInfo;
 
     return (
-        <div className="max-w-2xl mx-auto my-10">
+        <div className="max-w-2xl w-full mx-auto my-10">
             {/* Restaurant Info */}
             <div className="mb-10">
                 <h2 className="text-2xl font-bold">{name}</h2>
@@ -49,11 +49,8 @@ const MenuCategory = (props) => {
     const { category } = props;
     return (
         <div>
-            <h3 className="flex items-center justify-between border h-16 px-5 rounded-lg cursor-pointer">
-                <div className="font-bold text-xl">
-                    {category?.title} ({category?.itemCards?.length})
-                </div>
-                <span>▼</span>
+            <h3 className="flex items-center justify-between border h-16 px-5 rounded-lg cursor-pointer font-bold text-lg">
+                {category?.title} ({category?.itemCards?.length})<span>▼</span>
             </h3>
             <div className="space-y-10 my-7 divide-gray-300 divide-y rounded-lg px-3">
                 {category?.itemCards?.map((item) => (
@@ -74,7 +71,7 @@ const NestedMenuCategory = (props) => {
             <h3 className="font-bold mb-5">{category?.title}</h3>
             {category?.categories?.map((subcategory) => (
                 <div key={subcategory?.title}>
-                    <h4 className="flex items-center justify-between border h-16 px-5 rounded-lg cursor-pointer">
+                    <h4 className="flex items-center justify-between border h-16 px-5 rounded-lg cursor-pointer font-bold text-lg">
                         <div>
                             {subcategory?.title} (
                             {subcategory?.itemCards?.length})
