@@ -1,16 +1,43 @@
-import { useRouteError, Link } from 'react-router-dom'
+import { useRouteError } from "react-router";
+import { Link } from "react-router";
 
 const Error = () => {
-    const {status, statusText, error} = useRouteError();
-    
-    return (
-        <div className='bg-black text-white min-h-screen flex items-center justify-center flex-col gap-2'>
-            <h2 className='text-6xl font-GrotBlack text-red-600'><span>{status}</span> {statusText} !!!</h2>
-            <p className='text-3xl font-GrotMed'>{error?.message}</p>
-            <div className='text-xl font-GrotMed'>Wanna Navigate to Home Page ?</div>
-            <Link to="/" className='mt-3 text-base font-GrotMed bg-white text-black w-20 h-10 rounded-md flex items-center justify-center'>Home</Link>
-        </div>
-    )
-}
+    const { status, statusText, error } = useRouteError();
+    console.log(status);
+    console.log(statusText);
+    console.log(error);
 
-export default Error
+    return (
+        <div className="flex flex-col items-center justify-center min-h-screen bg-orange-50 text-gray-800 p-4">
+            <h1 className="text-4xl font-bold text-orange-500 mb-4">
+                {status || statusText ? (
+                    <span>
+                        {status} {statusText}
+                    </span>
+                ) : (
+                    "Oops! Page Not Found"
+                )}
+            </h1>
+            <div className="mb-8">
+                <img
+                    src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExMzM5YTBjMzMxZDNjZDUxMzM1MzM1M2JlNDU5NmNiZWM2YzBkZjI3ZiZlcD12MV9pbnRlcm5hbF9naWZzX2dpZklkJmN0PWc/3o6Zt5TBNnPyQDNVzq/giphy.gif"
+                    alt="Confused chef"
+                    className="rounded-lg shadow-lg max-w-full h-auto"
+                    style={{ maxHeight: "300px" }}
+                />
+            </div>
+            <p className="text-xl mb-5 text-center">
+                Looks like this dish isn't on our menu! Let's get you back to
+                the main course.
+            </p>
+            <Link
+                to="/"
+                className="bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 px-5 rounded inline-flex items-center transition duration-300"
+            >
+                Back to Home
+            </Link>
+        </div>
+    );
+};
+
+export default Error;

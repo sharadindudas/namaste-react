@@ -1,31 +1,23 @@
-import React from "react";
+import { useEffect } from "react";
 
-class User extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            userData: {}
-        }
-    }
+const User = ({ name }) => {
+    useEffect(() => {
+        const timer = setInterval(() => {
+            console.log("Namaste React OP");
+        }, 1000);
 
-    async componentDidMount() {
-        const res = await fetch("https://api.github.com/users/R3MODAS");
-        const json = await res.json();
-        this.setState({ userData: json })
-    }
+        return () => {
+            clearInterval(timer);
+        };
+    }, []);
 
-    render() {
-        const { avatar_url: userimg, name, location, html_url: url, id } = this.state.userData;
-
-        return (
-            <div className="min-h-screen flex flex-col items-center justify-center font-ProximaNovaMed">
-                <img className="h-72 rounded-full" src={userimg} alt={id} />
-                <h2 className="text-3xl font-ProximaNovaBold">{name}</h2>
-                <h3 className="text-lg">Location: {location} 🔥</h3>
-                <h3><a className="text-lg" href={url} target="blank">Visit my Github 🚀</a></h3>
-            </div>
-        )
-    }
-}
+    return (
+        <div className="user-card">
+            <h2>Name: {name}</h2>
+            <h3>Location: Kanchrapara</h3>
+            <h4>Github: sharadindudas</h4>
+        </div>
+    );
+};
 
 export default User;

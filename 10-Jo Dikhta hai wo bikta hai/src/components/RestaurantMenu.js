@@ -1,57 +1,133 @@
-import { useParams } from "react-router-dom";
-import { MENU_IMG_CDN } from "../utils/constants";
-import { BiSolidUpArrow } from "react-icons/bi";
-import useRestaurantMenu from "../utils/useRestaurantMenu";
-import ShimmerUi from "./ShimmerUi"
+import { useParams } from "react-router";
+import { RESTAURANT_MENU_IMG } from "../utils/constants";
+import useRestaurantMenu from "../hooks/useRestaurantMenu";
+import { truncateString } from "../utils/utility";
+import ShimmerMenu from "./ShimmerMenu";
 
 const RestaurantMenu = () => {
     const { resId } = useParams();
 
-    const ResInfo = useRestaurantMenu(resId);
+    const { resInfo, resMenu } = useRestaurantMenu(resId);
 
-    if (ResInfo?.length === 0) {
-        return <ShimmerUi />
-    }
+    if (resInfo === null) return <ShimmerMenu />;
+
+    const { name, areaName, cuisines, costForTwoMessage } = resInfo;
 
     return (
-        <div className="container mx-auto">
+        <div className="max-w-2xl mx-auto my-10">
+            {/* Restaurant Info */}
+            <div className="mb-10">
+                <h2 className="text-2xl font-bold">{name}</h2>
+                <p>
+                    Outlet: <span className="font-semibold">{areaName}</span>
+                </p>
+                <p>
+                    {cuisines?.join(", ")} - {costForTwoMessage}
+                </p>
+            </div>
 
-            <ul className="p-[20px]">
-                {
-                    ResInfo?.map((item) => (
-                        <li id={item.card.card.title} key={item.card.card.title}>
-                            <h3 className="mt-10 mb-10 flex justify-between items-center text-customblack-3 font-ProximaNovaBold text-xl">
-                                {item.card.card.title} ({item.card.card.itemCards.length})
-                                <BiSolidUpArrow />
-                            </h3>
-                            <div>
-                                {item.card.card.itemCards.map((item) => (
-                                    <div key={item.card.info.id}>
-                                        <div className="flex justify-between">
-                                            <div className="w-[700px]">
-                                                <h4 className="text-base text-customblack-3 mr-2 font-ProximaNovaSemiBold">{item.card.info.name}</h4>
-                                                <span className="text-sm MenuPrice text-customblack-3 font-ProximaNovaMed">{item.card.info.price / 100}</span>
-                                                <p className="text-sm mt-[10px] font-ProximaNovaThin text-customblack-4">{item.card.info.description}</p>
-                                            </div>
-                                            <div className="w-[118px] h-[96px] relative">
-                                                {
-                                                    item.card.info.imageId && <img className="w-full h-full rounded-md object-cover" src={MENU_IMG_CDN + item.card.info.imageId} alt="menu-img" />
-                                                }
-                                                <button className="absolute bottom-0 left-[-10%] w-[70px] h-[30px] flex justify-center items-center translate-x-2/4 cursor-pointer bg-gray-50 border border-black text-sm">Add</button>
-                                            </div>
-                                        </div>
-                                        <div className="divider"></div>
-                                    </div>
-                                )
-                                )}
-                            </div>
-                        </li>
-                    ))
-                }
-            </ul>
-
+            <div>
+                {resMenu?.map((category) =>
+                    category?.type === "nested" ? (
+                        <NestedMenuCategory
+                            key={category?.title}
+                            category={category}
+                        />
+                    ) : (
+                        <MenuCategory
+                            key={category?.title}
+                            category={category}
+                        />
+                    )
+                )}
+            </div>
         </div>
-    )
-}
+    );
+};
 
-export default RestaurantMenu
+const MenuCategory = (props) => {
+    const { category } = props;
+    return (
+        <div>
+            <h3 className="flex items-center justify-between border h-16 px-5 rounded-lg cursor-pointer">
+                <div className="font-bold text-xl">
+                    {category?.title} ({category?.itemCards?.length})
+                </div>
+                <span>▼</span>
+            </h3>
+            <div className="space-y-10 my-7 divide-gray-300 divide-y rounded-lg px-3">
+                {category?.itemCards?.map((item) => (
+                    <MenuItem
+                        key={item?.card?.info?.id}
+                        item={item?.card?.info}
+                    />
+                ))}
+            </div>
+        </div>
+    );
+};
+
+const NestedMenuCategory = (props) => {
+    const { category } = props;
+    return (
+        <div>
+            <h3 className="font-bold mb-5">{category?.title}</h3>
+            {category?.categories?.map((subcategory) => (
+                <div key={subcategory?.title}>
+                    <h4 className="flex items-center justify-between border h-16 px-5 rounded-lg cursor-pointer">
+                        <div>
+                            {subcategory?.title} (
+                            {subcategory?.itemCards?.length})
+                        </div>
+                        <span>▼</span>
+                    </h4>
+                    <div className="space-y-10 my-7 divide-gray-300 divide-y rounded-lg px-3">
+                        {subcategory?.itemCards?.map((item) => (
+                            <MenuItem
+                                key={item?.card?.info?.id}
+                                item={item?.card?.info}
+                            />
+                        ))}
+                    </div>
+                </div>
+            ))}
+        </div>
+    );
+};
+
+const MenuItem = ({ item }) => {
+    const { name, description, price, defaultPrice, imageId } = item;
+
+    return (
+        <div className="flex justify-between pb-10">
+            <div className="w-1/2 space-y-2">
+                {name && <h4 className="font-semibold">{name}</h4>}
+                {description && (
+                    <p className="text-gray-600">
+                        {truncateString(description, 100)}
+                    </p>
+                )}
+                {price && (
+                    <p className="font-semibold">₹{(price / 100).toFixed(2)}</p>
+                )}
+                {defaultPrice && (
+                    <p className="font-semibold">
+                        ₹{(defaultPrice / 100).toFixed(2)}
+                    </p>
+                )}
+            </div>
+
+            <div className="w-40 h-36">
+                {imageId && (
+                    <img
+                        className="w-full h-full object-cover rounded-lg"
+                        src={RESTAURANT_MENU_IMG + imageId}
+                        alt={name}
+                    />
+                )}
+            </div>
+        </div>
+    );
+};
+
+export default RestaurantMenu;

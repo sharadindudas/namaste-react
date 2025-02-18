@@ -1,48 +1,58 @@
-import ReactDOM from "react-dom/client";
-import "./css/index.css";
-import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
 import { lazy, Suspense } from "react";
-import Loader from "./components/Loader";
+import ReactDOM from "react-dom/client";
+import Header from "./components/Header";
+import Body from "./components/Body";
+import Footer from "./components/Footer";
+import Error from "./components/Error";
+import RestaurantMenu from "./components/RestaurantMenu";
+import { createBrowserRouter, Outlet, RouterProvider } from "react-router";
+const About = lazy(() => import("./components/About"));
+const Contact = lazy(() => import("./components/Contact"));
+const Grocery = lazy(() => import("./components/Grocery"));
 
-const Header = lazy(() => import("./components/Header"));
-const Body = lazy(() => import("./pages/Body"));
-const About = lazy(() => import("./pages/About"));
-const Contact = lazy(() => import("./pages/Contact"));
-const RestaurantMenu = lazy(() => import("./components/RestaurantMenu"));
-const Error = lazy(() => import("./components/Error"));
-
-const Home = () => {
-  return (
-    <Suspense fallback={<Loader />}>
-      <Header />
-      <Outlet />
-    </Suspense>
-  );
+const AppLayout = () => {
+    return (
+        <>
+            <Header />
+            <Outlet />
+            <Footer />
+        </>
+    );
 };
 
-const Router = createBrowserRouter([
-  {
-    path: "/",
-    element: <Home />,
-    children: [
-      {
+const appRouter = createBrowserRouter([
+    {
         path: "/",
-        element: <Body />
-      }, {
-        path: "/about",
-        element: <About />
-      }, {
-        path: "/contact",
-        element: <Contact />
-      },
-      {
-        path: "/restaurants/:resId",
-        element: <RestaurantMenu />
-      }
-    ],
-    errorElement: <Error />
-  }
-])
+        element: <AppLayout />,
+        children: [
+            {
+                path: "/",
+                element: <Body />
+            },
+            {
+                path: "/about",
+                element: <About />
+            },
+            {
+                path: "/contact",
+                element: <Contact />
+            },
+            {
+                path: "/grocery",
+                element: (
+                    <Suspense fallback={<h1>Loading...</h1>}>
+                        <Grocery />
+                    </Suspense>
+                )
+            },
+            {
+                path: "/restaurant/menu/:resId",
+                element: <RestaurantMenu />
+            }
+        ],
+        errorElement: <Error />
+    }
+]);
 
 const root = ReactDOM.createRoot(document.querySelector("#root"));
-root.render(<RouterProvider router={Router} />);
+root.render(<RouterProvider router={appRouter} />);
